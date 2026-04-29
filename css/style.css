@@ -1,0 +1,594 @@
+/* =========================================================
+   前期課題サイト - リニューアル版
+   日本電子専門学校 Webデザイン科
+   ========================================================= */
+
+:root {
+  --color-primary: #0078d7;
+  --color-accent: #00b8c4;
+  --color-accent-light: #00f6ff;
+  --color-highlight: #fce45c;
+  --color-highlight-soft: #fff9e6;
+  --color-highlight-border: #f0d26a;
+  --color-text: #2c3e50;
+  --color-text-soft: #555;
+  --color-bg: #fafaf7;
+  --color-card: #ffffff;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.12);
+  --radius: 12px;
+  --radius-lg: 16px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --max-width: 1100px;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  margin: 0;
+  font-family: "Open Sans", "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; text-decoration: none; }
+
+/* ===== トップへ戻るボタン ===== */
+#top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition), transform var(--transition);
+  transform: translateY(10px);
+}
+#top.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.scroll-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, var(--color-accent-light), var(--color-accent));
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 50%;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.scroll-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ===== ヘッダー ===== */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-sm);
+}
+header .inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 8px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+#logo { margin: 0; flex-shrink: 0; }
+#logo img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  transition: transform var(--transition);
+}
+#logo a:hover img { transform: scale(1.05); }
+
+#global_nav ul {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+#global_nav li a {
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 8px 0;
+  position: relative;
+  transition: color var(--transition);
+}
+#global_nav li a:hover,
+#global_nav li a.active {
+  color: var(--color-primary);
+}
+#global_nav li a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transition: width var(--transition), left var(--transition);
+}
+#global_nav li a:hover::after,
+#global_nav li a.active::after {
+  width: 100%;
+  left: 0;
+}
+
+/* ===== ヒーロー ===== */
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  background-image:
+    linear-gradient(135deg, rgba(0, 120, 215, 0.25), rgba(0, 246, 255, 0.15)),
+    url(../img/背景1.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.hero-content {
+  text-align: center;
+  color: #fff;
+  padding: 24px;
+  max-width: 800px;
+  animation: fadeInUp 1s ease-out;
+}
+.hero-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  margin: 0 0 16px;
+  letter-spacing: 0.05em;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  line-height: 1.3;
+}
+.hero-subtitle {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  margin: 0 0 32px;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  letter-spacing: 0.08em;
+}
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  animation: bounce 2s infinite;
+}
+.hero-scroll::after {
+  content: "";
+  display: block;
+  width: 2px;
+  height: 30px;
+  background: #fff;
+  margin: 8px auto 0;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-8px); }
+}
+
+/* ===== メイン ===== */
+main { background: var(--color-bg); }
+
+#container {
+  display: flex;
+  justify-content: center;
+  padding: 80px 16px;
+}
+#contents.discovery {
+  width: 100%;
+  max-width: 880px;
+}
+#contents.discovery .sec_inner {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: clamp(28px, 5vw, 56px);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+#contents.discovery p {
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  letter-spacing: 0.02em;
+  margin: 0;
+  line-height: 2;
+  color: var(--color-text-soft);
+}
+
+/* ===== セクションイントロ（共通） ===== */
+.section-intro {
+  max-width: 800px;
+  margin: 80px auto 40px;
+  padding: 32px 24px;
+  background: var(--color-highlight-soft);
+  border: 1px solid var(--color-highlight-border);
+  border-radius: var(--radius);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.title2 {
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  margin: 0 0 16px;
+  border-bottom: 3px solid var(--color-highlight-border);
+  padding-bottom: 12px;
+  display: inline-block;
+  color: var(--color-text);
+  letter-spacing: 0.05em;
+}
+.event1, .skill1, .interview1 {
+  margin: 0 0 8px;
+  line-height: 1.9;
+  color: var(--color-text-soft);
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+}
+
+/* ===== カード共通 ===== */
+.sec {
+  width: 100%;
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+.sec_inner, .sec_inner2, .sec_inner3 {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.sec_inner:hover, .sec_inner2:hover, .sec_inner3:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.sec h4 {
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  background: linear-gradient(135deg, var(--color-highlight), #fdd835);
+  color: var(--color-primary);
+  text-align: center;
+  padding: 14px;
+  margin: 0;
+  letter-spacing: 0.15em;
+}
+.sec h5 {
+  font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+  color: var(--color-primary);
+  margin: 0;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* ===== イベントカード ===== */
+.sec2 .item_body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "img ttl"
+    "img txt";
+  gap: 24px;
+  padding: 28px;
+  align-items: center;
+}
+.sec2 .item_body figure { grid-area: img; margin: 0; overflow: hidden; border-radius: var(--radius); }
+.sec2 .item_body figure img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  transition: transform 0.6s ease;
+}
+.sec2 .item_body figure:hover img { transform: scale(1.05); }
+.sec2 .item_body h5 { grid-area: ttl; align-self: end; padding-bottom: 8px; }
+.sec2 .item_body .item_text {
+  grid-area: txt;
+  text-align: left;
+  line-height: 2;
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  color: var(--color-text-soft);
+  margin: 0;
+}
+
+/* ===== スキルカード ===== */
+.item_body2 {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  padding: 28px;
+  align-items: start;
+  min-height: 360px;
+}
+.item_body2 figure {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.item_body2 figure img {
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+  transition: transform var(--transition);
+}
+.item_body2:hover figure img {
+  transform: scale(1.08) rotate(-3deg);
+}
+.item_body2 h5 {
+  text-align: left;
+  margin-bottom: 12px;
+  border-left: 4px solid var(--color-accent);
+  padding-left: 12px;
+}
+.item_body2 .item_text {
+  text-align: left;
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  line-height: 1.9;
+  color: var(--color-text-soft);
+  margin: 0;
+}
+
+/* ===== スキルローテーター ===== */
+#skills-rotator {
+  max-width: 950px;
+  margin: 24px auto 0;
+  overflow: hidden;
+  position: relative;
+  padding: 0 16px;
+}
+#skills-rotator::before, #skills-rotator::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  z-index: 2;
+  pointer-events: none;
+}
+#skills-rotator::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--color-bg), transparent);
+}
+#skills-rotator::after {
+  right: 0;
+  background: linear-gradient(-90deg, var(--color-bg), transparent);
+}
+#skills-rotator .track {
+  display: flex;
+  will-change: transform;
+}
+#skills-rotator .sec.sec3 {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  margin: 0;
+  display: flex;
+}
+#skills-rotator .sec.sec3 .sec_inner2 {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+#skills-rotator .sec.sec3 .item_body2 {
+  flex: 1;
+}
+#skills-rotator.is-paused { cursor: pointer; }
+
+/* ===== インタビューカード ===== */
+.item_body3 {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 32px;
+  padding: 32px;
+  align-items: start;
+}
+.item_body3 figure {
+  margin: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.item_body3 figure img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  transition: transform 0.6s ease;
+}
+/* デスクトップで李さん（ジャミン）の写真は頭が見えるよう上寄せ */
+.item_body3 figure img[src*="ジャミン"] {
+  object-position: center top;
+}
+.item_body3 figure:hover img { transform: scale(1.05); }
+.item_body3 h5 {
+  text-align: left;
+  margin-bottom: 16px;
+  border-left: 4px solid var(--color-accent);
+  padding-left: 12px;
+}
+.item_body3 .item_text2 {
+  text-align: left;
+  line-height: 1.9;
+  margin: 0;
+  font-size: clamp(0.95rem, 1.5vw, 1rem);
+  color: var(--color-text-soft);
+}
+.item_text2 .question {
+  display: block;
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: clamp(1rem, 1.6vw, 1.1rem);
+  margin: 16px 0 6px;
+  line-height: 1.6;
+  padding: 8px 12px;
+  background: rgba(0, 120, 215, 0.06);
+  border-radius: 6px;
+  border-left: 3px solid var(--color-primary);
+}
+.item_text2 .question:first-child { margin-top: 0; }
+
+/* ===== フッター ===== */
+footer {
+  border-top: 4px solid var(--color-accent);
+  background: linear-gradient(180deg, #fff8d4, #fff2ab);
+  padding: 48px 24px 32px;
+  margin-top: 120px;
+}
+#utility {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+#utility ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  padding: 0;
+  margin: 0 0 24px;
+  flex-wrap: wrap;
+}
+#utility ul li a {
+  color: var(--color-primary);
+  font-weight: 700;
+  transition: color var(--transition);
+}
+#utility ul li a:hover { color: var(--color-accent); }
+.area_ec {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+.area_ec img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  transition: transform var(--transition);
+}
+.area_ec a:hover img { transform: scale(1.1); }
+footer > small {
+  text-align: center;
+  color: var(--color-text-soft);
+  font-weight: 500;
+  display: block;
+  margin: 32px auto 0;
+  font-size: 0.9rem;
+}
+.scroll_top { display: none; }
+
+/* ===== スクロールアニメーション ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== レスポンシブ - タブレット ===== */
+@media (max-width: 900px) {
+  .sec2 .item_body {
+    grid-template-columns: 1fr;
+    grid-template-areas: "ttl" "img" "txt";
+    gap: 16px;
+    padding: 20px;
+  }
+  .sec2 .item_body figure img { height: 240px; }
+  .item_body2 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px;
+    text-align: center;
+    min-height: 0;
+  }
+  .item_body2 h5 {
+    text-align: center;
+    border-left: none;
+    border-bottom: 3px solid var(--color-accent);
+    padding: 0 0 8px;
+  }
+  .item_body3 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px;
+  }
+  .item_body3 figure img {
+    height: 320px;
+    object-position: center 25%;
+  }
+  /* 李さん（ジャミン）の写真はトップ寄せのままにする */
+  .item_body3 figure img[src*="ジャミン"] {
+    object-position: center top;
+  }
+  .item_body3 h5 {
+    text-align: center;
+    border-left: none;
+    border-bottom: 3px solid var(--color-accent);
+    padding: 0 0 8px;
+  }
+}
+
+/* ===== レスポンシブ - スマホ ===== */
+@media (max-width: 640px) {
+  header .inner { padding: 6px 12px; gap: 12px; }
+  #logo img { width: 48px; height: 48px; }
+  #global_nav ul { gap: 16px; }
+  #global_nav li a { font-size: 0.85rem; }
+  .wrapper { background-position: 70% 30%; }
+  #container { padding: 60px 16px; }
+  #contents.discovery p br { display: none; }
+  .section-intro { margin: 60px auto 24px; padding: 24px 16px; }
+  .sec { margin: 24px auto; }
+  .sec2 .item_body figure img { height: 200px; }
+  .item_body3 figure img { height: 280px; }
+  #utility ul {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+  footer { margin-top: 80px; padding: 32px 16px 24px; }
+  #top { right: 12px; bottom: 12px; }
+  .scroll-btn { width: 44px; height: 44px; font-size: 0.75rem; }
+  .hero-scroll { display: none; }
+}
