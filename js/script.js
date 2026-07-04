@@ -90,6 +90,41 @@
   }
 
   /* ============================================
+     インタビュースライダー（左右切り替え）
+     ============================================ */
+  function initInterviewSlider() {
+    const track = document.getElementById('interviewTrack');
+    const prevBtn = document.getElementById('interviewPrev');
+    const nextBtn = document.getElementById('interviewNext');
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const slides = Array.from(track.children);
+    const total = slides.length;
+    let index = 0;
+
+    function update() {
+      track.style.transform = 'translateX(' + (index * -100) + '%)';
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === total - 1;
+    }
+
+    prevBtn.addEventListener('click', function () {
+      if (index > 0) {
+        index--;
+        update();
+      }
+    });
+    nextBtn.addEventListener('click', function () {
+      if (index < total - 1) {
+        index++;
+        update();
+      }
+    });
+
+    update();
+  }
+
+  /* ============================================
      スクロールフェードイン
      ============================================ */
   function initFadeIn() {
@@ -177,6 +212,7 @@
 
   function init() {
     initSkillsRotator();
+    initInterviewSlider();
     initFadeIn();
     initTopButton();
     initActiveNav();
